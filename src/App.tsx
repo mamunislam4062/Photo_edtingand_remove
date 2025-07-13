@@ -7,7 +7,6 @@ import SignInPage from './components/SignInPage';
 import ForgotPasswordPage from './components/ForgotPasswordPage';
 import BackgroundRemoverPage from './components/BackgroundRemoverPage';
 import PhotoEditorPage from './components/PhotoEditorPage';
-import DesignMakerPage from './components/DesignMakerPage';
 import CollageMakerPage from './components/CollageMakerPage';
 import PricingPage from './components/PricingPage';
 import ProfessionalToolsPage from './components/ProfessionalToolsPage';
@@ -23,7 +22,6 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/background-remover" element={<BackgroundRemoverPage />} />
           <Route path="/photo-editor" element={<PhotoEditorPage />} />
-          <Route path="/design-maker" element={<DesignMakerPage />} />
           <Route path="/collage-maker" element={<CollageMakerPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/professional-tools" element={<ProfessionalToolsPage />} />
