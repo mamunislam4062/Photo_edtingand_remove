@@ -1,19 +1,47 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import { Camera, Eye, EyeOff, Mail, Lock, ArrowLeft, ToggleLeft as Google, Facebook, Apple, Sparkles } from 'lucide-react';
 
 const SignInPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, signup, isLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const from = location.state?.from?.pathname || '/profile';
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign in/up logic here
-    console.log('Form submitted:', { email, password, isSignUp });
+    setError('');
+    
+    try {
+      let success = false;
+      
+      if (isSignUp) {
+        if (!name.trim()) {
+          setError('Please enter your name');
+          return;
+        }
+        success = await signup(email, password, name);
+      } else {
+        success = await login(email, password);
+      }
+      
+      if (success) {
+        navigate(from, { replace: true });
+      } else {
+        setError(isSignUp ? 'Failed to create account' : 'Invalid email or password');
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -82,6 +110,26 @@ const SignInPage = () => {
 
           {/* Sign In Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name Field (Sign Up Only) */}
+            {isSignUp && (
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Enter your full name"
+                    required={isSignUp}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -169,13 +217,25 @@ const SignInPage = () => {
               </div>
             )}
 
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSignUp ? 'Create Account' : 'Sign In'}
-              <Sparkles className="w-5 h-5 ml-2" />
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+              ) : (
+                <Sparkles className="w-5 h-5 ml-2" />
+              )}
+              {isLoading ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign In')}
             </button>
           </form>
 

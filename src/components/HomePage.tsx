@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import DemoModal from './DemoModal';
 import { 
   Camera, 
@@ -26,6 +27,7 @@ import {
 } from 'lucide-react';
 
 const HomePage = () => {
+  const { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedTool, setSelectedTool] = useState('photo-editor');
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -166,27 +168,51 @@ const HomePage = () => {
             
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
-                <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Photo Editor</a>
-                <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Design</a>
-                <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Templates</a>
-                <a href="https://www.fotor.com/background-remover" target="_blank" rel="noopener noreferrer" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Background Remover</a>
-                <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Pricing</a>
+                <Link to="/photo-editor" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Photo Editor</Link>
+                <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Design</Link>
+                <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Templates</Link>
+                <Link to="/background-remover" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Background Remover</Link>
+                <Link to="/pricing" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Pricing</Link>
               </div>
             </div>
 
             <div className="hidden md:flex items-center space-x-4">
-              <Link 
-                to="/signin" 
-                className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link 
-                to="/signin" 
-                className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
-              >
-                Get Started
-              </Link>
+              {user ? (
+                <>
+                  <Link 
+                    to="/profile" 
+                    className="flex items-center text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
+                  >
+                    <img 
+                      src={user.avatar || "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=32"} 
+                      alt={user.name} 
+                      className="w-6 h-6 rounded-full mr-2"
+                    />
+                    {user.name}
+                  </Link>
+                  <Link 
+                    to="/photo-editor" 
+                    className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
+                  >
+                    Start Editing
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    to="/signin" 
+                    className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    to="/signin" 
+                    className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
 
             <div className="md:hidden">
@@ -204,24 +230,43 @@ const HomePage = () => {
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-100">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Photo Editor</a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Design</a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Templates</a>
-              <a href="https://www.fotor.com/background-remover" target="_blank" rel="noopener noreferrer" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Background Remover</a>
-              <a href="#" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Pricing</a>
+              <Link to="/photo-editor" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Photo Editor</Link>
+              <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Design</Link>
+              <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Templates</Link>
+              <Link to="/background-remover" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Background Remover</Link>
+              <Link to="/pricing" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Pricing</Link>
               <div className="pt-4 pb-3 border-t border-gray-200">
-                <Link 
-                  to="/signin" 
-                  className="text-gray-900 hover:text-purple-600 block w-full text-left px-3 py-2 text-base font-medium"
-                >
-                  Sign In
-                </Link>
-                <Link 
-                  to="/signin" 
-                  className="bg-purple-600 text-white block w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-purple-700 transition-colors mt-2"
-                >
-                  Get Started
-                </Link>
+                {user ? (
+                  <>
+                    <Link 
+                      to="/profile" 
+                      className="text-gray-900 hover:text-purple-600 block w-full text-left px-3 py-2 text-base font-medium"
+                    >
+                      Profile
+                    </Link>
+                    <Link 
+                      to="/photo-editor" 
+                      className="bg-purple-600 text-white block w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-purple-700 transition-colors mt-2"
+                    >
+                      Start Editing
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link 
+                      to="/signin" 
+                      className="text-gray-900 hover:text-purple-600 block w-full text-left px-3 py-2 text-base font-medium"
+                    >
+                      Sign In
+                    </Link>
+                    <Link 
+                      to="/signin" 
+                      className="bg-purple-600 text-white block w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-purple-700 transition-colors mt-2"
+                    >
+                      Get Started
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -252,10 +297,10 @@ const HomePage = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link 
-                to="/signin" 
+                to={user ? "/photo-editor" : "/signin"} 
                 className="bg-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center"
               >
-                Start Editing for Free
+                {user ? "Start Editing Now" : "Start Editing for Free"}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               
@@ -316,7 +361,7 @@ const HomePage = () => {
                   <p className="text-gray-600 leading-relaxed">{tool.description}</p>
                   
                   <Link 
-                    to={tool.id === 'background-remover' ? 'https://www.fotor.com/background-remover' : '#'}
+                    to={`/${tool.id}`}
                     className="mt-6 flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors"
                   >
                     Try it now
@@ -498,10 +543,10 @@ const HomePage = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
-              to="/signin" 
+              to={user ? "/photo-editor" : "/signin"} 
               className="bg-white text-purple-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
-              Start Creating for Free
+              {user ? "Start Creating Now" : "Start Creating for Free"}
             </Link>
             <button className="border-2 border-white text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white hover:text-purple-600 transition-all duration-200">
               View Examples
