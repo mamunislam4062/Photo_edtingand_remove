@@ -170,7 +170,7 @@ const HomePage = () => {
               <div className="ml-10 flex items-baseline space-x-8">
                 <Link to="/photo-editor" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Photo Editor</Link>
                 <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Design</Link>
-                <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Templates</Link>
+                <Link to="/templates" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Templates</Link>
                 <Link to="/background-remover" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Background Remover</Link>
                 <Link to="/pricing" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Pricing</Link>
               </div>
@@ -232,7 +232,7 @@ const HomePage = () => {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <Link to="/photo-editor" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Photo Editor</Link>
               <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Design</Link>
-              <Link to="/design-maker" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Templates</Link>
+              <Link to="/templates" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Templates</Link>
               <Link to="/background-remover" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Background Remover</Link>
               <Link to="/pricing" className="text-gray-900 hover:text-purple-600 block px-3 py-2 text-base font-medium">Pricing</Link>
               <div className="pt-4 pb-3 border-t border-gray-200">
