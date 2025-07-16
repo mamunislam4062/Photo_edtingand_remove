@@ -188,6 +188,13 @@ const PhotoEditorPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
+              <Link 
+                to="/" 
+                className="flex items-center text-gray-600 hover:text-gray-900 mr-6 transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back
+              </Link>
               <Link to="/" className="flex-shrink-0 flex items-center">
                 <Camera className="h-8 w-8 text-purple-600" />
                 <span className="ml-2 text-xl font-bold text-gray-900">Fotor</span>

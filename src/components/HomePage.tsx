@@ -190,12 +190,6 @@ const HomePage = () => {
                     />
                     {user.name}
                   </Link>
-                  <Link 
-                    to="/photo-editor" 
-                    className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
-                  >
-                    Start Editing
-                  </Link>
                 </>
               ) : (
                 <>
@@ -243,12 +237,6 @@ const HomePage = () => {
                       className="text-gray-900 hover:text-purple-600 block w-full text-left px-3 py-2 text-base font-medium"
                     >
                       Profile
-                    </Link>
-                    <Link 
-                      to="/photo-editor" 
-                      className="bg-purple-600 text-white block w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-purple-700 transition-colors mt-2"
-                    >
-                      Start Editing
                     </Link>
                   </>
                 ) : (

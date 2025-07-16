@@ -32,6 +32,8 @@ const TemplatesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('popular');
+  const [likedTemplates, setLikedTemplates] = useState<number[]>([]);
+  const [sharedTemplate, setSharedTemplate] = useState<number | null>(null);
 
   const categories = [
     { id: 'all', name: 'All Templates', count: 15000, icon: <Layout className="w-4 h-4" /> },
@@ -224,6 +226,13 @@ const TemplatesPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
+              <Link 
+                to="/" 
+                className="flex items-center text-gray-600 hover:text-gray-900 mr-6 transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back
+              </Link>
               <Link to="/" className="flex-shrink-0 flex items-center">
                 <Camera className="h-8 w-8 text-purple-600" />
                 <span className="ml-2 text-xl font-bold text-gray-900">Fotor</span>
@@ -455,10 +464,13 @@ const TemplatesPage = () => {
                               <Eye className="w-4 h-4 mr-1" />
                               Preview
                             </button>
-                            <button className="bg-purple-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors flex items-center text-sm">
+                            <Link 
+                              to="/design-maker"
+                              className="bg-purple-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors flex items-center text-sm"
+                            >
                               <Plus className="w-4 h-4 mr-1" />
-                              Use
-                            </button>
+                              Use Template
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -470,7 +482,18 @@ const TemplatesPage = () => {
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center space-x-3 text-xs text-gray-500">
                               <span className="flex items-center">
-                                <Heart className="w-3 h-3 mr-1" />
+                                <Heart 
+                                  className={`w-3 h-3 mr-1 cursor-pointer transition-colors ${
+                                    likedTemplates.includes(template.id) ? 'text-red-500 fill-current' : ''
+                                  }`}
+                                  onClick={() => {
+                                    setLikedTemplates(prev => 
+                                      prev.includes(template.id) 
+                                        ? prev.filter(id => id !== template.id)
+                                        : [...prev, template.id]
+                                    );
+                                  }}
+                                />
                                 {template.likes}
                               </span>
                               <span className="flex items-center">
@@ -479,8 +502,24 @@ const TemplatesPage = () => {
                               </span>
                             </div>
                             <div className="flex items-center space-x-1">
-                              <Bookmark className="w-4 h-4 text-gray-400 hover:text-purple-500 cursor-pointer transition-colors" />
-                              <Share2 className="w-4 h-4 text-gray-400 hover:text-blue-500 cursor-pointer transition-colors" />
+                              <Bookmark 
+                                className="w-4 h-4 text-gray-400 hover:text-purple-500 cursor-pointer transition-colors" 
+                                onClick={() => {
+                                  // Add to bookmarks functionality
+                                  alert('Template bookmarked!');
+                                }}
+                              />
+                              <Share2 
+                                className="w-4 h-4 text-gray-400 hover:text-blue-500 cursor-pointer transition-colors" 
+                                onClick={() => {
+                                  setSharedTemplate(template.id);
+                                  navigator.clipboard.writeText(window.location.href + `?template=${template.id}`);
+                                  setTimeout(() => setSharedTemplate(null), 2000);
+                                }}
+                              />
+                              {sharedTemplate === template.id && (
+                                <span className="text-xs text-green-600">Copied!</span>
+                              )}
                             </div>
                           </div>
                           <div className="flex flex-wrap gap-1">

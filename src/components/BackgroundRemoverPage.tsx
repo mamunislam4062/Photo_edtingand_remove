@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import URLUploadModal from './URLUploadModal';
 import { 
   Camera, 
   Upload, 
@@ -26,6 +27,7 @@ const BackgroundRemoverPage = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [selectedExample, setSelectedExample] = useState(0);
+  const [isURLModalOpen, setIsURLModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const examples = [
@@ -127,6 +129,11 @@ const BackgroundRemoverPage = () => {
     reader.readAsDataURL(file);
   };
 
+  const handleURLUpload = (url: string) => {
+    setUploadedImage(url);
+    processImage();
+  };
+
   const processImage = () => {
     setIsProcessing(true);
     // Simulate AI processing
@@ -156,7 +163,7 @@ const BackgroundRemoverPage = () => {
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
                 <Link to="/" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Home</Link>
-                <a href="https://www.fotor.com/background-remover" target="_blank" rel="noopener noreferrer" className="text-purple-600 px-3 py-2 text-sm font-medium">Background Remover</a>
+                <Link to="/background-remover" className="text-purple-600 px-3 py-2 text-sm font-medium">Background Remover</Link>
                 <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Photo Editor</a>
                 <a href="#" className="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Design</a>
               </div>
@@ -255,6 +262,12 @@ const BackgroundRemoverPage = () => {
                     className="bg-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     Choose Image
+                  </button>
+                  <button
+                    onClick={() => setIsURLModalOpen(true)}
+                    className="border-2 border-purple-600 text-purple-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-purple-50 transition-all duration-200"
+                  >
+                    Upload from URL
                   </button>
                 </div>
               ) : (
@@ -536,6 +549,13 @@ const BackgroundRemoverPage = () => {
           </div>
         </div>
       </footer>
+      
+      {/* URL Upload Modal */}
+      <URLUploadModal 
+        isOpen={isURLModalOpen}
+        onClose={() => setIsURLModalOpen(false)}
+        onUpload={handleURLUpload}
+      />
     </div>
   );
 };
